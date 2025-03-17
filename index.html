@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Framer Clock UI</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+             min-height: 100vh;
+            text-align: left;
+            padding: 20px;
+            position: relative;
+        }
+        .container {
+            width: 80%;
+            max-width: 800px;
+            text-align: center;
+        }
+        .title {
+            font-size: 25px;
+            font-weight: bold;
+            color: white;
+        }
+        .date {
+            font-size: 25px;
+            color: gray;
+        }
+        .icons {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 15px;
+            cursor: pointer;
+        }
+        .icons img {
+            width: 24px;
+            height: 24px;
+            filter: invert(1);
+        }
+        .menu {
+            display: none;
+            position: absolute;
+            top: 50px;
+            right: 20px;
+            background: white;
+            color: black;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            font-size: 0.9rem;
+            width: 150px;
+        }
+        .menu div {
+            padding: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .menu div:hover {
+            background: #f0f0f0;
+        }
+        .image-container img {
+            width: 100%;
+            max-width: 800px;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+        .description {
+            margin-top: 20px;
+            font-size: 29px;
+            color: white;
+            text-align: Justify;
+			line-height: 1.5;
+    letter-spacing: -0.5px; /* Nilai negatif membuat huruf lebih rapat */
+        }
+		
+		.code-container {
+    background: #1e1e1e;
+    color: #dcdcdc;
+    padding: 15px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-family: 'Courier New', monospace;
+    white-space: pre-wrap;
+}
+.code-container code {
+    display: block;
+    color: #9cdcfe;
+}
+.code-container .keyword {
+    color: #569cd6;
+}
+.code-container .function {
+    color: #dcdcaa;
+}
+.code-container .string {
+    color: #ce9178;
+}
+
+
+.sidebar {
+    position: fixed;
+    left: 20px;
+    top: 100px;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.sidebar-line {
+    width: 2px;
+    height: 0;
+    background: gray;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: height 0.3s ease-out;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding-left: 15px;
+    margin: 0;
+}
+
+.sidebar-menu li {
+    margin-bottom: 10px;
+}
+
+.sidebar-menu a {
+    text-decoration: none;
+    color: gray;
+    font-size: 16px;
+    transition: color 0.3s;
+}
+
+.sidebar-menu a:hover {
+    color: black;
+}
+
+   .toc-container {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: auto;
+        }
+        .toc-title {
+            font-size: 29px;
+            font-weight: bold;
+            color: #f4b400;
+        }
+        .toc-toggle {
+            float: right;
+            background: none;
+            border: none;
+            font-size: 29px;
+            cursor: pointer;
+        }
+        .toc-list {
+            margin-top: 10px;
+            display: block;
+			 font-size: 29px;
+        }
+        .toc-list a {
+            text-decoration: none;
+            color: #333;
+            display: block;
+            padding: 5px 0;
+			 font-size: 29px;
+        }
+        .toc-list a.highlight {
+            color: #f4b400;
+            font-weight: bold;
+        }
+		
+		.tags {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px; /* Menambahkan jarak antara tanggal dan tag */
+}
+
+.tag {
+    background: #E27C72;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 15px;
+    font-size: 29px;
+    font-weight: bold;
+}
+
+.tag.website {
+    background: #7FFF00;
+    color: black;
+}
+
+.top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 24px;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .top-bar a {
+            text-decoration: none;
+            color: white;
+            display: flex;
+            align-items: center;
+        }
+
+        .top-bar a::before {
+            content: "✏️";
+            margin-right: 5px;
+        }
+		
+		.post-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+        }
+
+        .nav-link {
+            display: flex;
+            flex-direction: column;
+            padding: 10px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 14px;
+            color: black;
+            background: #f8f8f8;
+            text-align: center;
+        }
+
+        .nav-link span {
+            font-size: 12px;
+            color: #777;
+        }
+		.note-box {
+            display: flex;
+            align-items: flex-start;
+            background: #f1f3f5;
+            border-left: 5px solid #2c7be5;
+            border-radius: 8px;
+            padding: 15px;
+            max-width: 700px;
+            font-size: 28px;
+            color: #333;
+        }
+
+        .note-box i {
+            color: #2c7be5;
+            margin-right: 10px;
+            font-size: 26px;
+        }
+
+        .note-content {
+            display: flex;
+            flex-direction: column;
+			text-align: left;
+        }
+		
+		  .note-title {
+            font-weight: bold;
+            color: #2c7be5;
+            margin-bottom: 5px;
+			font-size: 20px;
+        }
+		
+		  .blinking-dot {
+            width: 12px;
+            height: 12px;
+            background: black;
+            border-radius: 50%;
+            margin-left: 5px;
+            animation: blink 1s infinite;
+        }
+        .dot1 { animation-delay: 0s; }
+        .dot2 { animation-delay: 0.3s; }
+        .dot3 { animation-delay: 0.6s; }
+		/* Status "AVAILABLE FOR WORK" di kiri atas */
+        .status-container {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        .status-dot {
+            width: 14px;
+            height: 14px;
+            background: green;
+            border-radius: 50%;
+            display: inline-block;
+            animation: blink 1s infinite;
+        }
+		  @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+		
+		.search-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    border-radius: 8px;
+    width: 200px;
+    background: #7FFF00;
+}
+        .search-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px;
+            max-width: 90%;
+            background: #7CFC00;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            padding: 10px;
+        }
+        .search-popup input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            font-size: 16px;
+            outline: none;
+        }
+        .search-results {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 10px;
+        }
+        .result-item {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+        }
+        .result-item:hover, .result-item.active {
+            background: #FF4500;
+        }
+        .highlight {
+            background: red;
+            font-weight: bold;
+        }
+
+		
+
+
+    </style>
+</head>
+<!-- Tambahkan CSS Prism.js -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+<body>
+
+		<!-- Search bar -->
+<div class="search-container" id="searchBar">
+    🔍 Search <span style="margin-left:auto; background:yellow; padding:2px 6px; border-radius:4px;">Ctrl + K</span>
+</div>
+
+<!-- Popup search -->
+<div class="search-popup" id="searchPopup">
+    <input type="text" id="searchInput" placeholder="Search..." autofocus>
+    <div class="search-results" id="searchResults"></div>
+</div>
+
+    <div class="icons">
+        <img src="https://cdn-icons-png.flaticon.com/512/646/646135.png" alt="Language" id="languageBtn">
+        <img src="https://cdn-icons-png.flaticon.com/512/1034/1034157.png" alt="Globe">
+        <img src="https://cdn-icons-png.flaticon.com/512/786/786205.png" alt="Share" id="shareBtn">
+    </div>
+    <div class="menu" id="languageMenu">
+        <div onclick="translatePage('en')">🅰 English</div>
+        <div onclick="translatePage('id')">文 Bahasa Indonesia</div>
+    </div>
+    <div class="menu" id="shareMenu">
+        <div onclick="copyLink()">🔗 Copy link</div>
+        <div onclick="shareTwitter()"> Share on Instagram</div>
+    </div>
+	
+	<div class="sidebar">
+    <div class="sidebar-line"></div>
+    <ul class="sidebar-menu">
+        <li><a href="#pendahuluan">Pendahuluan</a></li>
+        <li><a href="#komponen">Komponen yang digunakan</a></li>
+        <li><a href="#skema-sistem">Skema Sistem</a></li>
+        <li><a href="#program-arduino">Program Arduino</a></li>
+        <li><a href="#pengujian">Pengujian</a></li>
+        <li><a href="#kesimpulan">Kesimpulan</a></li>
+    </ul>
+</div>
+
+
+    <div class="container">
+        <h1 class="title" id="title">Project Skripsi: PROTOTIPE SISTEM ALARM PENDETEKSI ASAP DAN KEBAKARAN DINI MENGGUNAKAN KIPAS DAN POMPA AIR BERBASIS ARDUINO UNO</h1>
+		<p class="date" id="date"></p>
+		<div class="tags">
+        <div class="tag">Skripsi</div>
+        <div class="tag website">Arduino</div>
+    </div>
+        <div class="image-container">
+            <img src="images/5.jpg" alt="Large Image">
+        </div>
+		
+		<div class="toc-container">
+        <div>
+            <span class="toc-title">Table of Contents</span>
+            <button class="toc-toggle" onclick="toggleTOC()">☰</button>
+        </div>
+        <div class="toc-list" id="tocList">
+            <p style="color: #f4b400; font-weight: bold;">Susunan Materi Project Skripsi 2023</p>
+            <ol>
+                 <li><a href="#pendahuluan">Pendahuluan</a></li>
+        <li><a href="#komponen">Komponen yang digunakan</a></li>
+        <li><a href="#skema-sistem">Skema Sistem</a></li>
+        <li><a href="#program-arduino">Program Arduino</a></li>
+        <li><a href="#pengujian">Pengujian</a></li>
+        <li><a href="#kesimpulan">Kesimpulan</a></li>
+            </ol>
+        </div>
+		 </div>
+		
+		        <p class="description">
+            Sebelum memasuki materi yang saya sampaikan, mari kita baca doa terlebih dahulu, Aamiin, Terima Kasih, Selamat Belajar, Membaca, dan Mencoba.
+        </p>
+		
+        <div class="description">
+            <h2>Pendahuluan</h2>
+            <p>.</p>
+            <p>.</p>
+        </div>
+		 <div class="image-container">
+            <img src="images/5.jpg" alt="Large Image">
+        </div>
+	
+	<div class="description">
+            <h2>Komponen yang digunakan</h2>
+            <p>Berikut adalah daftar komponen yang digunakan dalam proyek ini</p>
+            <p>Aktivator 12 V dan 9 V, sensor api, sensor MQ-2, mikrokontroler ATmega 328P Arduino UNO R3, modul relay 2 channel, pompa air mini 12 VDC, kipas angin 12VDC, LCD 16x2 I2c, Buzzer</p>
+        </div>
+		
+		<div class="image-container">
+            <img src="images/5.jpg" alt="Large Image">
+        </div>
+		
+		<div class="description">
+            <h2>Skema sistem</h2>
+            <p>maka penulis membuat berdasarkan diagram blok, di mana antara blok yang satu
+dengan yang lainnya saling berhubungan, dan dapat terbentuk sebuah sistem yang
+memiliki fungsi dan kerja yang khusus. Pada garis besar, blok aktivasi akan
+mengaktifkan semua komponen pada blok input, proses dan output. Lalu input akan
+mengirim kan data yang diterima ke bagian blok peroses agar dapat diproses. Lalu
+setelah selesai diproses hasilnya akan dikirimkan ke blok output agar semua
+komponen bekerja sesuai dengan alat yang dirancang.</p>
+            <p>.</p>
+        </div>
+		<div class="image-container">
+            <img src="images/23.jpg" alt="Large Image">
+        </div>
+	
+		
+		<div class="description">
+            <h2>Program Arduino</h2>
+            <p>.</p>
+            <p>.</p>
+        </div>
+		
+		
+		
+		<pre><code class="language-js">
+export function Hour(Component): ComponentType {
+    return (props) => {
+        return (
+            &lt;Component
+                {...props}
+            /&gt;
+        )
+    }
+}
+
+export function Minute(Component): ComponentType {
+    return (props) => {
+        return (
+            &lt;Component
+                {...props}
+            /&gt;
+        )
+    }
+}
+
+export function Second(Component): ComponentType {
+    return (props) => {
+        return (
+            &lt;Component
+                {...props}
+            /&gt;
+        )
+    }
+}
+</code></pre>
+
+<div class="description">
+            <h2>Pengujian</h2>
+            <p>.</p>
+            <p>.</p>
+        </div>
+		
+		<div class="image-container">
+            <img src="images/21.jpg" alt="Large Image">
+        </div>
+
+<div class="description">
+            <p>.</p>
+            <p>.</p>
+        </div>
+		
+		<pre><code class="language-js">
+import { motion } from "framer-motion";
+
+const secondHandAnimation = {
+    from: { rotate: 6 * second + 6 * (millisecond / 1000) },
+    to: { 
+        rotate: 6 * second + 6 * (millisecond / 1000) + 360,
+        transition: { duration: 60, ease: "linear", repeat: Infinity }
+    }
+};
+</code></pre>
+
+<div class="description">
+            <h2>Kesimpulan</h2>
+            <p>.</p>
+            <p>.</p>
+        </div>
+		
+		<pre><code class="language-js">
+import { motion } from "framer-motion";
+
+const secondHandAnimation = {
+    from: { rotate: 6 * second + 6 * (millisecond / 1000) },
+    to: { 
+        rotate: 6 * second + 6 * (millisecond / 1000) + 360,
+        transition: { duration: 60, ease: "linear", repeat: Infinity }
+    }
+};
+</code></pre>
+
+<div class="description">
+            <h2></h2>
+            <p>.</p>
+            <p>.</p>
+        </div>
+		
+		<pre><code class="language-js">
+import { motion } from "framer-motion";
+
+const secondHandAnimation = {
+    from: { rotate: 6 * second + 6 * (millisecond / 1000) },
+    to: { 
+        rotate: 6 * second + 6 * (millisecond / 1000) + 360,
+        transition: { duration: 60, ease: "linear", repeat: Infinity }
+    }
+};
+</code></pre>
+
+
+<div class="description">
+            <h2>The Full Code</h2>
+            <p>.</p>
+            <p>.</p>
+        </div>
+		
+		<pre><code class="language-js">
+import { motion } from "framer-motion";
+
+const secondHandAnimation = {
+  from: { 
+    rotate: 6 * second + 6 * (millisecond / 1000) 
+  },
+  to: {
+    rotate: 6 * second + 6 * (millisecond / 1000) + 360,
+    transition: { 
+      duration: 60, 
+      ease: "linear", 
+      repeat: Infinity 
+    }
+  }
+};
+</code></pre>
+ <!-- Status "AVAILABLE FOR WORK" di kiri atas -->
+    <div class="status-container">
+        <span class="status-dot"></span>
+        <span>AVAILABLE FOR WORK</span>
+    </div>
+	
+
+		 <div class="note-box">
+        <i class="fas fa-info-circle"></i>
+        <div class="note-content">
+            <div class="note-title">NOTE</div>
+            <p>Di beberapa materi, code, mungkin bahasa pemrograman, materi yang di tampilkan, tidak diupdate
+            <p>Jangan khawatir, kamu tetap bisa membaca artikel website ini secara update, Intinya, fokus pada implementasinya, ya! - Author by Farid Ardiansyah.
+        </div>
+    </div>
+	
+	 
+	
+
+            <div class="top-bar">
+            <a href="#">Perbaiki halaman ini di GitHub</a>
+            <span>Last updated: 17/03/2025, 1:37 PM</span>
+        </div>
+
+        <div class="post-navigation">
+            <a href="https://funny-klepon-f48de7.netlify.app/" class="nav-link">
+                <span>Previous page</span>
+                Home
+            </a>
+            <a href="next-page.html" class="nav-link">
+                <span>Next page</span>
+                Coming Soon.
+            </a>
+        </div>
+    </div>
+	
+    <script>
+    window.addEventListener("scroll", function () {
+        const sidebarLine = document.querySelector(".sidebar-line");
+        const sections = document.querySelectorAll("h2");
+        let scrollPosition = window.scrollY;
+
+        // Cek elemen pertama yang terlihat di layar
+        let firstVisibleIndex = -1;
+        sections.forEach((section, index) => {
+            const rect = section.getBoundingClientRect();
+            if (rect.top > 0 && firstVisibleIndex === -1) {
+                firstVisibleIndex = index;
+            }
+        });
+
+        // Atur tinggi garis sesuai dengan index elemen pertama yang terlihat
+        let newHeight = firstVisibleIndex * 40;
+        sidebarLine.style.height = newHeight + "px";
+    });
+
+        function updateDate() {
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            document.getElementById("date").textContent = new Date().toLocaleDateString("en-US", options);
+        }
+        updateDate();
+
+        document.getElementById("shareBtn").addEventListener("click", function(event) {
+            toggleMenu("shareMenu", event);
+        });
+        document.getElementById("languageBtn").addEventListener("click", function(event) {
+            toggleMenu("languageMenu", event);
+        });
+
+        document.addEventListener("click", function(event) {
+            closeMenus(event);
+        });
+
+        function toggleMenu(menuId, event) {
+            const menu = document.getElementById(menuId);
+            menu.style.display = menu.style.display === "block" ? "none" : "block";
+            event.stopPropagation();
+        }
+
+        function closeMenus(event) {
+            ["shareMenu", "languageMenu"].forEach(menuId => {
+                const menu = document.getElementById(menuId);
+                if (menu.style.display === "block" && !event.target.closest(".icons")) {
+                    menu.style.display = "none";
+                }
+            });
+        }
+
+        function copyLink() {
+            navigator.clipboard.writeText(window.location.href);
+            alert("Link copied!");
+        }
+
+        function shareTwitter() {
+            const url = encodeURIComponent(window.location.href);
+            window.open(`https://twitter.com/intent/tweet?url=${url}`, "_blank");
+        }
+
+        function translatePage(lang) {
+    const translations = {
+        "en": {
+            "title": "Real data in Framer: Clock",
+            "desc1": "Although Framer has become a web design tool, we can still use it for prototyping.",
+            "desc2": "This series will take advantage of Framer's Override feature to bring real data into Framer.",
+            "desc3": "In the first article, we will design a real clock component using simple code.",
+            "clock-ui": "The Clock UI",
+            "clock-ui-desc": "First, we need to create the UI layer for the clock...",
+            "override": "Override",
+            "override-desc": "Overrides are used to dynamically change properties...",
+            "using-date": "Using Date()",
+            "second-hand": "The Second Hand",
+            "minute-hour": "Minute and Hour Hands",
+            "full-code": "The Full Code"
+        },
+        "id": {
+            "title": "Data nyata di Framer: Jam",
+            "desc1": "Meskipun Framer telah menjadi alat desain web, kita masih bisa menggunakannya untuk prototipe.",
+            "desc2": "Seri ini akan memanfaatkan fitur Override Framer untuk membawa data nyata ke dalam Framer.",
+            "desc3": "Dalam artikel pertama, kita akan merancang komponen jam nyata menggunakan kode sederhana.",
+            "clock-ui": "Tampilan Jam",
+            "clock-ui-desc": "Pertama, kita perlu membuat lapisan UI untuk jam...",
+            "override": "Override",
+            "override-desc": "Override digunakan untuk mengubah properti secara dinamis...",
+            "using-date": "Menggunakan Date()",
+            "second-hand": "Jarum Detik",
+            "minute-hour": "Jarum Menit dan Jam",
+            "full-code": "Kode Lengkap"
+        }
+    };
+
+    // Update teks sesuai bahasa yang dipilih
+    document.getElementById("title").textContent = translations[lang]["title"];
+    document.getElementById("desc1").textContent = translations[lang]["desc1"];
+    document.getElementById("desc2").textContent = translations[lang]["desc2"];
+    document.getElementById("desc3").textContent = translations[lang]["desc3"];
+    document.getElementById("clock-ui").textContent = translations[lang]["clock-ui"];
+    document.getElementById("clock-ui-desc").textContent = translations[lang]["clock-ui-desc"];
+    document.getElementById("override").textContent = translations[lang]["override"];
+    document.getElementById("override-desc").textContent = translations[lang]["override-desc"];
+    document.getElementById("using-date").textContent = translations[lang]["using-date"];
+    document.getElementById("second-hand").textContent = translations[lang]["second-hand"];
+    document.getElementById("minute-hour").textContent = translations[lang]["minute-hour"];
+    document.getElementById("full-code").textContent = translations[lang]["full-code"];
+}
+
+ function toggleTOC() {
+            var tocList = document.getElementById("tocList");
+            if (tocList.style.display === "none" || tocList.style.display === "") {
+                tocList.style.display = "block";
+            } else {
+                tocList.style.display = "none";
+            }
+        }
+		
+			  const searchData = [
+        "SEO di Next.js",
+        "Pendahuluan",
+        "Instalasi",
+        "Struktur Pages",
+        "Static Site Generation (SSG)",
+        "Server Side Rendering (SSR)",
+        "API Routes",
+        "Keamanan Aplikasi"
+    ];
+
+    const searchBar = document.getElementById("searchBar");
+    const searchPopup = document.getElementById("searchPopup");
+    const searchInput = document.getElementById("searchInput");
+    const searchResults = document.getElementById("searchResults");
+
+    let selectedIndex = -1;
+	
+	function openSearch() {
+        searchPopup.style.display = "block";
+        searchInput.value = "";
+        searchResults.innerHTML = "";
+        searchInput.focus();
+    }
+
+    function closeSearch() {
+        searchPopup.style.display = "none";
+        selectedIndex = -1;
+    }
+
+    function highlightText(text, keyword) {
+        if (!keyword) return text;
+        const regex = new RegExp(`(${keyword})`, "gi");
+        return text.replace(regex, `<span class="highlight">$1</span>`);
+    }
+
+    function updateResults(query) {
+        searchResults.innerHTML = "";
+        const filtered = searchData.filter(item => item.toLowerCase().includes(query.toLowerCase()));
+
+        if (filtered.length === 0) {
+            searchResults.innerHTML = "<p style='padding:8px;'>No results found</p>";
+            return;
+        }
+		  filtered.forEach((item, index) => {
+            const div = document.createElement("div");
+            div.classList.add("result-item");
+            div.innerHTML = highlightText(item, query);
+            div.addEventListener("click", () => alert("Selected: " + item));
+            searchResults.appendChild(div);
+        });
+    }
+
+    searchInput.addEventListener("input", (e) => updateResults(e.target.value));
+
+    document.addEventListener("keydown", (e) => {
+        if (e.ctrlKey && e.key === "k") {
+            e.preventDefault();
+            openSearch();
+        }
+        if (e.key === "Escape") closeSearch();
+    });
+
+    searchBar.addEventListener("click", openSearch);
+
+
+    </script>
+</body>
+<!-- Tambahkan Prism.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+</html>
