@@ -1,4 +1,3 @@
 User-agent: *
 Allow: /
-Allow: /images/
 Sitemap: https://blogprojectskripsi.netlify.app//sitemap.xml
