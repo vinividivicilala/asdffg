@@ -85,29 +85,6 @@
 			line-height: 1.5;
     letter-spacing: -0.5px; /* Nilai negatif membuat huruf lebih rapat */
         }
-		
-		.code-container {
-    background: #1e1e1e;
-    color: #dcdcdc;
-    padding: 15px;
-    border-radius: 8px;
-    overflow-x: auto;
-    font-family: 'Courier New', monospace;
-    white-space: pre-wrap;
-}
-.code-container code {
-    display: block;
-    color: #9cdcfe;
-}
-.code-container .keyword {
-    color: #569cd6;
-}
-.code-container .function {
-    color: #dcdcaa;
-}
-.code-container .string {
-    color: #ce9178;
-}
 
 
 .sidebar {
@@ -367,6 +344,143 @@
             background: red;
             font-weight: bold;
         }
+		
+		 .download-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: #00878F;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 29px;
+            cursor: pointer;
+            border-radius: 28px;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
+            animation: glow 2s infinite alternate;
+        }
+        .download-btn img {
+            width: 35px;
+            height: 35px;
+            filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.3));
+        }
+        .download-btn span {
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        @keyframes glow {
+            0% {
+                box-shadow: 0 0 10px #ff5733;
+                text-shadow: 0 0 10px #ff5733;
+            }
+            50% {
+                box-shadow: 0 0 20px #33ff57;
+                text-shadow: 0 0 20px #33ff57;
+            }
+            100% {
+                box-shadow: 0 0 10px #3357ff;
+                text-shadow: 0 0 10px #3357ff;
+            }
+        }
+		
+		
+        .code-container {
+    background-color: #282c34;
+    color: #abb2bf;
+    padding: 10px; /* Adjust padding as needed */
+    border-radius: 15px;
+    overflow-x: auto;
+    position: relative;
+}
+
+pre {
+    margin: 0;
+    display: block; /* Changed from flex to block */
+    white-space: pre-wrap; /* Wrap long lines */
+    word-break: break-all; /* Break words if necessary */
+}
+
+.line-numbers {
+    user-select: none;
+    padding-right: 10px;
+    border-right: 1px solid #444;
+    margin-right: 10px;
+    color: #5c6370;
+    width: 30px; /* Fixed width for line numbers */
+    text-align: right; /* Align line numbers to the right */
+    float: left; /* Float line numbers to the left */
+}
+
+.code-content {
+    margin-left: 40px; /* Add some space between line numbers and code */
+    display: block; /* Ensure code content is displayed as a block */
+    text-align: left; /* Align code text to the left */
+}
+
+.copy-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #444;
+    border: none;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.copy-button:hover {
+    background: #555;
+}
+
+.copy-button:active {
+    background: #666;
+}
+
+.copy-button svg {
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+}
+
+.copied-message {
+    position: absolute;
+    top: 40px;
+    right: 10px;
+    background: #444;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.copied-message.show {
+    opacity: 1;
+}
+        }
+        .keyword {
+            color: #c678dd;
+        }
+        .function {
+            color: #61afef;
+        }
+        .comment {
+            color: #5c6370;
+            font-style: italic;
+        }
+        .string {
+            color: #98c379;
+        }
+        .number {
+		color: #d19a66;
+        }
+
 
 		
 
@@ -450,7 +564,16 @@
 		
         <div class="description">
             <h2>Pendahuluan</h2>
-            <p>.</p>
+            <p>  Batasan masalah pada penelitian ini antara lain prototipe sistem alarm
+pendeteksi asap dan kebakaran dini menggunakan kipas dan pompa air berbasis
+arduino uno dirancang untuk membantu manusia dalam keadaan bahaya. Pada
+prototipe ini sensor MQ-2 sebagai pendeteksi asap, Sensor Api sebagai pendeteksi
+nyala api, Buzzer untuk mengeluarkan bunyi peringatan ketika terdeteksi asap dan
+nyala api, Modul Relay 2 channel yang berguna untuk mengatur pompa air mini
+dan kipas, LCD 16x2 I2C sebagai keluaran untuk penampil layar untuk memberi
+tahu keadaan dan nilai analog, Kipas untuk mengurangi asap yang banyak atau
+sedikit, Pompa air mini untuk memadamkan api. Untuk pemrograman Arduino
+menggunakan aplikasi Arduino IDE.</p>
             <p>.</p>
         </div>
 		 <div class="image-container">
@@ -490,43 +613,143 @@ komponen bekerja sesuai dengan alat yang dirancang.</p>
         </div>
 		
 		
+		    <div class="code-container">
+        <button class="copy-button" title="Copy to clipboard">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            Copy
+        </button>
+        <div class="copied-message">Copied!</div>
+        <pre>
+		  <div class="line-numbers">
+                <span>1</span>
+                <span>2</span>
+                <span>3</span>
+                <span>4</span>
+                <span>5</span>
+                <span>6</span>
+                <span>7</span>
+                <span>8</span>
+                <span>9</span>
+                <span>10</span>
+                <span>11</span>
+                <span>12</span>
+                <span>13</span>
+                <span>14</span>
+                <span>15</span>
+                <span>16</span>
+                <span>17</span>
+                <span>18</span>
+                <span>19</span>
+                <span>20</span>
+                <span>21</span>
+                <span>22</span>
+                <span>23</span>
+                <span>24</span>
+                <span>25</span>
+                <span>26</span>
+                <span>27</span>
+                <span>28</span>
+				 <span>29</span>
+                <span>30</span>
+                <span>31</span>
+                <span>32</span>
+                <span>33</span>
+                <span>34</span>
+                <span>35</span>
+                <span>36</span>
+                <span>37</span>
+                <span>38</span>
+                <span>39</span>
+                <span>40</span>
+                <span>41</span>
+                <span>42</span>
+                <span>43</span>
+				  <span>44</span>
+                <span>45</span>
+                <span>46</span>
+                <span>47</span>
+                <span>48</span>
+            </div>
+            <div class="code-content">
+  <code><span class="keyword">#include</span> &lt;Wire.h&gt;
+<span class="keyword">#include</span> &lt;LiquidCrystal_I2C.h&gt;
+
+<span class="keyword">#define</span> pin_sensor
+LiquidCrystal_I2C lcd(@x27, 16, 2);
+
+<span class="keyword">void</span> <span class="function">setup</span>() {
+    Serial.<span class="function">begin</span>(115200);
+    lcd.<span class="function">init</span>();
+    lcd.<span class="function">backlight</span>();
+    lcd.<span class="function">setCursor</span>(0, 0);
+    lcd.<span class="function">print</span>(<span class="string">" Idrus Project "</span>);
+}
+<span class="keyword">void</span> <span class="function">loop</span>() {
+    <span class="function">lcd_display</span>();
+    <span class="function">delay</span>(1000);
+}
+
+<span class="keyword">void</span> <span class="function">lcd_display</span>() {
+    lcd.<span class="function">setCursor</span>(0, 1);
+    lcd.<span class="function">print</span>(<span class="string">"Pressure:"</span>);
+    lcd.<span class="function">print</span>(<span class="function">pressure_reading</span>());
+    lcd.<span class="function">print</span>(<span class="string">"psi"</span>);
+}
+
+<span class="keyword">float</span> <span class="function">pressure_reading</span>() {
+    <span class="keyword">const</span> <span class="keyword">int</span> pressureZero = <span class="number">90.4</span>; <span class="comment">//analog reading of pressure transducer at 0psi</span>
+    <span class="keyword">const</span> <span class="keyword">int</span> pressureMax = <span class="number">1023.6</span>; <span class="comment">//analog reading of pressure transducer at 100psi</span>
+    <span class="keyword">const</span> <span class="keyword">int</span> pressureTransducermaxPSI = <span class="number">100</span>; <span class="comment">//psi value of transducer being used</span>
+    <span class="keyword">float</span> pressureValue = <span class="number">0</span>; <span class="comment">//variable to store the value coming from the pressure transducer</span>
+
+    pressureValue = <span class="function">analogRead</span>(pin_sensor); <span class="comment">//reads value from input pin and assigns to variable</span>
+    pressureValue = ((pressureValue - pressureZero) * pressureTransducermaxPSI) / (pressureMax - pressureZero);
+<span class="comment">//conversion equation to convert analog reading to psi</span>
+    <span class="keyword">if</span> (pressureValue &lt; <span class="number">1.5</span>) {
+    pressureValue = <span class="number">0</span>;
+    }
+    <span class="keyword">return</span> pressureValue;
+}</code>
+            </div>
+        </pre>
+    </div>
+
 		
-		<pre><code class="language-js">
-export function Hour(Component): ComponentType {
-    return (props) => {
-        return (
-            &lt;Component
-                {...props}
-            /&gt;
-        )
-    }
-}
-
-export function Minute(Component): ComponentType {
-    return (props) => {
-        return (
-            &lt;Component
-                {...props}
-            /&gt;
-        )
-    }
-}
-
-export function Second(Component): ComponentType {
-    return (props) => {
-        return (
-            &lt;Component
-                {...props}
-            /&gt;
-        )
-    }
-}
-</code></pre>
+		 <a class="download-btn" id="download" download>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/Arduino_Logo.svg" alt="Arduino Icon">
+        <span>Download Code Arduino</span>
+    </a>
+		
+		
 
 <div class="description">
             <h2>Pengujian</h2>
-            <p>.</p>
-            <p>.</p>
+            <p>1. Pengujian pertama, dilakukan pengujian pada sensor api yang terhubung
+dengan arduino uno R3. pengujian ini dilakukan untuk mengetahui berapa
+jarak yang dapat dideteksi oleh sensor api supaya buzzer dan pompa
+menyala dan lcd menampilkan kondisi dan nilai analog, jika sensor api tidak
+dideteksi oleh api, maka buzzer dan pompa tidak menyala dan lcd
+menampilkan kondisi ruangan aman, serial monitor di gunakan untuk
+mengetahui nilai analog ruangan aman. Sensor flame tidak bisa mendeteksi
+objek api lilin dikarenakan nilai batasan belum bisa di bawah dari 100 dan
+lcd masih menampilkan ruangan aman dan masih di atas nilai analog 100,
+buzzer dan pompa air tidak menyala, sensor flame bisa mendeteksi objek
+api lilin lalu buzzer berbunyi, pompa air menyala dan lcd masih dalam keadaan ruangan ada api di karenakan sensor flame masih bisa di bawah
+100. Pompa air memadamkan api hasil pembakaran kertas + kardus. </p>
+            <p>2. Pengujian kedua, dilakukan pengujian pada sensor asap yang terhubung
+dengan arduino uno R3. pengujian ini dilakukan untuk mengetahui berapa
+jarak yang dapat dideteksi oleh sensor asap supaya buzzer dan kipas
+menyala dan lcd menampilkan kondisi dan nilai analog, jika sensor asap
+tidak dideteksi oleh asap, maka buzzer dan kipas tidak menyala dan lcd
+menampilkan kondisi ruangan aman, serial monitor di gunakan untuk
+mengetahui nilai analog ruangan aman. Sensor MQ-2 tidak bisa mendeteksi
+objek asap dikarenakan nilai batasan belum bisa lebih dari 300, sensor MQ2 bisa mendeteksi objek asap lalu buzzer berbunyi, tiba-tiba buzzer tidak
+berbunyi, kipas nyala dan lcd masih dalam keadaan bahaya asap di
+karenakan sensor MQ-2 masih belum bisa di bawah 300. Sensor MQ-2
+mendeteksi asap dari hasil pembakaran kardus + kertas dan obat nyamuk.</p>
         </div>
 		
 		<div class="image-container">
@@ -538,17 +761,7 @@ export function Second(Component): ComponentType {
             <p>.</p>
         </div>
 		
-		<pre><code class="language-js">
-import { motion } from "framer-motion";
-
-const secondHandAnimation = {
-    from: { rotate: 6 * second + 6 * (millisecond / 1000) },
-    to: { 
-        rotate: 6 * second + 6 * (millisecond / 1000) + 360,
-        transition: { duration: 60, ease: "linear", repeat: Infinity }
-    }
-};
-</code></pre>
+	
 
 <div class="description">
             <h2>Kesimpulan</h2>
@@ -568,24 +781,137 @@ bahaya makin berkembang.</p>
             <p>.</p>
             <p>.</p>
         </div>
-		
-		<pre><code class="language-js">
-import { motion } from "framer-motion";
+	
+		    <div class="code-container">
+        <button class="copy-button" title="Copy to clipboard">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            Copy
+        </button>
+        <div class="copied-message">Copied!</div>
+        <pre>
+		  <div class="line-numbers">
+                <span>1</span>
+                <span>2</span>
+                <span>3</span>
+                <span>4</span>
+                <span>5</span>
+                <span>6</span>
+                <span>7</span>
+                <span>8</span>
+                <span>9</span>
+                <span>10</span>
+                <span>11</span>
+                <span>12</span>
+                <span>13</span>
+                <span>14</span>
+                <span>15</span>
+                <span>16</span>
+                <span>17</span>
+                <span>18</span>
+                <span>19</span>
+                <span>20</span>
+                <span>21</span>
+                <span>22</span>
+                <span>23</span>
+                <span>24</span>
+                <span>25</span>
+                <span>26</span>
+                <span>27</span>
+                <span>28</span>
+				 <span>29</span>
+                <span>30</span>
+                <span>31</span>
+                <span>32</span>
+                <span>33</span>
+                <span>34</span>
+                <span>35</span>
+                <span>36</span>
+                <span>37</span>
+                <span>38</span>
+                <span>39</span>
+                <span>40</span>
+                <span>41</span>
+                <span>42</span>
+                <span>43</span>
+				  <span>44</span>
+                <span>45</span>
+                <span>46</span>
+                <span>47</span>
+                <span>48</span>
+            </div>
+            <div class="code-content">
+  <code><span class="keyword">#include</span> &lt;Wire.h&gt;
+<span class="keyword">#include</span> &lt;LiquidCrystal_I2C.h&gt;
 
-const secondHandAnimation = {
-  from: { 
-    rotate: 6 * second + 6 * (millisecond / 1000) 
-  },
-  to: {
-    rotate: 6 * second + 6 * (millisecond / 1000) + 360,
-    transition: { 
-      duration: 60, 
-      ease: "linear", 
-      repeat: Infinity 
+<span class="keyword">#define</span> pin_sensor
+LiquidCrystal_I2C lcd(@x27, 16, 2);
+
+<span class="keyword">void</span> <span class="function">setup</span>() {
+    Serial.<span class="function">begin</span>(115200);
+    lcd.<span class="function">init</span>();
+    lcd.<span class="function">backlight</span>();
+    lcd.<span class="function">setCursor</span>(0, 0);
+    lcd.<span class="function">print</span>(<span class="string">" Idrus Project "</span>);
+}
+<span class="keyword">void</span><span class="function">setup</span>() {
+    Serial.<span class="function">begin</span>(115200);
+    lcd.<span class="function">init</span>();
+    lcd.<span class="function">backlight</span>();
+    lcd.<span class="function">setCursor</span>(0, 0);
+    lcd.<span class="function">print</span>(<span class="string">" Idrus Project "</span>);
+}
+<span class="keyword">void</span> <span class="function">loop</span>() {
+    <span class="function">lcd_display</span>();
+    <span class="function">delay</span>(1000);
+}
+
+<span class="keyword">void</span> <span class="function">lcd_display</span>() {
+    lcd.<span class="function">setCursor</span>(0, 1);
+    lcd.<span class="function">print</span>(<span class="string">"Pressure:"</span>);
+    lcd.<span class="function">print</span>(<span class="function">pressure_reading</span>());
+    lcd.<span class="function">print</span>(<span class="string">"psi"</span>);
+}
+
+<span class="keyword">float</span> <span class="function">pressure_reading</span>() {
+    <span class="keyword">const</span> <span class="keyword">int</span> pressureZero = <span class="number">90.4</span>; <span class="comment">//analog reading of pressure transducer at 0psi</span>
+    <span class="keyword">const</span> <span class="keyword">int</span> pressureMax = <span class="number">1023.6</span>; <span class="comment">//analog reading of pressure transducer at 100psi</span>
+    <span class="keyword">const</span> <span class="keyword">int</span> pressureTransducermaxPSI = <span class="number">100</span>; <span class="comment">//psi value of transducer being used</span>
+    <span class="keyword">float</span> pressureValue = <span class="number">0</span>; <span class="comment">//variable to store the value coming from the pressure transducer</span>
+
+    pressureValue = <span class="function">analogRead</span>(pin_sensor); <span class="comment">//reads value from input pin and assigns to variable</span>
+    pressureValue = ((pressureValue - pressureZero) * pressureTransducermaxPSI) / (pressureMax - pressureZero);
+<span class="comment">//conversion equation to convert analog reading to psi</span>
+    <span class="keyword">if</span> (pressureValue &lt; <span class="number">1.5</span>) {
+    pressureValue = <span class="number">0</span>;
     }
-  }
-};
-</code></pre>
+    <span class="keyword">return</span> pressureValue;
+}</code>
+            </div>
+        </pre>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
  <!-- Status "AVAILABLE FOR WORK" di kiri atas -->
     <div class="status-container">
         <span class="status-dot"></span>
@@ -607,7 +933,7 @@ const secondHandAnimation = {
 
             <div class="top-bar">
             <a href="#">Perbaiki halaman ini di GitHub</a>
-            <span>Last updated: 18/03/2025, 18:37 PM</span>
+            <span>Last updated: 20/03/2025, 17:00 PM</span>
         </div>
 
         <div class="post-navigation">
@@ -747,7 +1073,7 @@ const secondHandAnimation = {
         "Pengujian",
         "Kesimpulan",
         "Pengujian",
-        "",
+        "Pendahuluan",
         ""
     ];
 	
@@ -805,6 +1131,50 @@ const secondHandAnimation = {
     });
 
     searchBar.addEventListener("click", openSearch);
+	
+	
+	
+	        document.getElementById("").addEventListener("click", function() {
+            const fileContent = "";
+            const blob = new Blob([fileContent], { type: "" });
+            const url = URL.createObjectURL(blob);
+            this.href = url;
+            this.download = "";
+        });
+		
+		
+		 document.addEventListener('DOMContentLoaded', function() {
+    const copyButton = document.querySelector('.copy-button');
+    const copiedMessage = document.querySelector('.copied-message');
+    const codeContent = document.querySelector('.code-content code');
+
+    copyButton.addEventListener('click', function() {
+        // Create a temporary textarea element
+        const tempTextArea = document.createElement('textarea');
+        tempTextArea.value = codeContent.innerText;
+
+        // Append the textarea to the body
+        document.body.appendChild(tempTextArea);
+
+        // Select the content of the textarea
+        tempTextArea.select();
+        tempTextArea.setSelectionRange(0, 99999); // For mobile devices
+
+        // Copy the selected content
+        document.execCommand('copy');
+
+        // Remove the temporary textarea
+        document.body.removeChild(tempTextArea);
+
+        // Show the copied message
+        copiedMessage.classList.add('show');
+
+        // Hide the copied message after 2 seconds
+        setTimeout(function() {
+            copiedMessage.classList.remove('show');
+        }, 2000);
+    });
+});
 
 
     </script>
