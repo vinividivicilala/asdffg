@@ -616,8 +616,11 @@ komponen bekerja sesuai dengan alat yang dirancang.</p>
 		
 		<div class="description">
             <h2>Program Arduino</h2>
-            <p>.</p>
-            <p>.</p>
+            <p>Kode program sangat berperan penting dalam melaksanakan tugasnya untuk
+menghasilkan kinerja alat dengan baik dan output yang sesuai. Alat ini
+membutuhkan kode program untuk mengatur mikrokontroler arduino uno, sehingga
+mikrokontroler tersebut dapat bekerja sesuai dengan flowchart yang diberikan.
+Kode program ini nantinya akan diunggah ke dalam arduino.</p>
         </div>
 		
 		
@@ -769,17 +772,18 @@ else {
 
 		
 <!-- Download Button -->
-    <a href="#" class="download-button" id="downloadButton">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-            <polyline points="7 10 12 15 17 10"></polyline>
-            <line x1="12" y1="15" x2="12" y2="3"></line>
-        </svg>
-        Download Code Arduino
-    </a>
+<a href="SKRIPSI_2023.ino" class="download-button" id="downloadButton" download="SKRIPSI_2023.ino">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+        <polyline points="7 10 12 15 17 10"></polyline>
+        <line x1="12" y1="15" x2="12" y2="3"></line>
+    </svg>
+    Download Code Arduino
+</a>
 
-    <!-- Downloaded Message -->
-    <div class="downloaded-message" id="downloadedMessage">Downloaded!</div>
+<!-- Downloaded Message -->
+<div class="downloaded-message" id="downloadedMessage" style="display: none;">Downloaded!</div>
+
 
 		
 		
@@ -1207,25 +1211,14 @@ else {
     searchBar.addEventListener("click", openSearch);
 	
 	
-  document.addEventListener('DOMContentLoaded', function () {
-            const downloadButton = document.getElementById('downloadButton');
-            const downloadedMessage = document.getElementById('downloadedMessage');
+  document.getElementById("downloadButton").addEventListener("click", function() {
+        let message = document.getElementById("downloadedMessage");
+        message.style.display = "block";
 
-            // Simulate downloading code (replace with actual download logic)
-            downloadButton.addEventListener('click', function (event) {
-                event.preventDefault(); // Prevent default link behavior
-
-                // Simulate download completion
-                setTimeout(() => {
-                    downloadedMessage.classList.add('show'); // Show the message
-
-                    // Hide the message after 2 seconds
-                    setTimeout(() => {
-                        downloadedMessage.classList.remove('show');
-                    }, 2000);
-                }, 500); // Simulate download delay
-            });
-        });
+        setTimeout(() => {
+            message.style.display = "none";
+        }, 2000); // Sembunyikan pesan setelah 2 detik
+    });
 		
 		
 		 document.addEventListener('DOMContentLoaded', function() {
