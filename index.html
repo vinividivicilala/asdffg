@@ -488,6 +488,29 @@ pre {
         .number {
 		color: #d19a66;
         }
+		.link-container {
+        display: flex;
+        align-items: center;
+        gap: 8px; /* Jarak antara link dan pemisah */
+    }
+
+    .styled-link {
+        color: #ff5722; /* Warna oranye */
+        text-decoration: none;
+        font-weight: bold;
+        border-bottom: 2px solid #ff5722; /* Underline */
+        transition: opacity 0.3s ease;
+		 font-size: 25px;
+    }
+
+    .styled-link:hover {
+        opacity: 0.7;
+    }
+
+    .separator {
+        color: #777;
+        font-weight: bold;
+    }
 
 
 		
@@ -569,6 +592,14 @@ pre {
 		        <p class="description">
             Sebelum memasuki materi yang saya sampaikan, mari kita baca doa terlebih dahulu, Aamiin, Terima Kasih, Selamat Belajar, Membaca, dan Mencoba.
         </p>
+		
+		<!-- Link dengan garis pemisah -->
+<div class="link-container">
+    <a href="https://library.gunadarma.ac.id/repository/prototipe-sistem-alarm-pendeteksi-asap-dan-kebakaran-dini-menggunakan-kipas-dan-pompa-air-berbasis-arduino-uno-skripsi" class="styled-link">Library Skripsi<a>
+    <span class="separator">|</span>
+    <a href="#" class="styled-link">Coming Soon<a>
+</div>
+
 		
         <div class="description">
             <h2>Pendahuluan</h2>
