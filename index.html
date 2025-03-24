@@ -128,43 +128,77 @@
     color: black;
 }
 
-   .toc-container {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-            margin: auto;
-        }
-        .toc-title {
-            font-size: 29px;
-            font-weight: bold;
-            color: #f4b400;
-        }
-        .toc-toggle {
-            float: right;
-            background: none;
-            border: none;
-            font-size: 29px;
-            cursor: pointer;
-        }
-        .toc-list {
-            margin-top: 10px;
-            display: block;
-			 font-size: 29px;
-        }
-        .toc-list a {
-            text-decoration: none;
-            color: #333;
-            display: block;
-            padding: 5px 0;
-			 font-size: 29px;
-        }
-        .toc-list a.highlight {
-            color: #f4b400;
-            font-weight: bold;
-        }
-		
+  /* Container daftar isi agar tetap rapi */
+.toc-container {
+    position: relative;
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    max-width: 600px;
+    margin: 20px auto;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling judul "Table of Contents" */
+.toc-title {
+    font-size: 35px;
+    font-weight: bold;
+    color: #f4b400;
+}
+
+/* Tombol toggle daftar isi */
+.toc-toggle {
+    background: none;
+    border: none;
+    font-size: 29px;
+    cursor: pointer;
+    position: absolute;
+    right: 15px;
+    top: 15px;
+}
+
+
+/* Menu daftar isi */
+.toc-menu {
+    display: none;
+    margin-top: 10px;
+}
+
+/* Styling judul subheading */
+.toc-menu p {
+    font-weight: bold;
+    color: #f4b400;
+    font-size: 29px;
+    margin-bottom: 10px;
+}
+
+/* Styling daftar */
+.toc-menu ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Styling tiap item daftar */
+.toc-menu li {
+    margin: 5px 0;
+}
+
+/* Styling link */
+.toc-menu a {
+    text-decoration: none;
+    color: #333;
+    font-size: 29px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.toc-menu a:hover {
+    color: #f4b400;
+    text-decoration: underline;
+}
+
 		.tags {
     display: flex;
     gap: 10px;
@@ -552,11 +586,54 @@ pre {
             font-size: 14px;
             opacity: 0.6;
         }
-
-
 		
+.signature-container {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    z-index: 999;
+    width: 100%;
+}
+
+.signature-name {
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+    white-space: nowrap;
+}
+
+.signature-year {
+    font-size: 28px; /* Angka lebih besar */
+    font-weight: bold;
+    color: white;
+    white-space: nowrap;
+    z-index: 10; /* Pastikan angka ada di atas garis */
+    background-color: black; /* Tambahkan background untuk kontras */
+    padding: 15px 25px; /* Tambahkan padding agar lebih jelas */
+}
+
+.signature-wrapper {
+    flex-grow: 1;
+    position: relative;
+    height: 2px;
+    margin: 0 10px;
+}
+
+.signature-line {
+    height: 2px;
+    background: gray;
+    width: 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: width 0.3s ease-out; 
+}
 
 
+	
     </style>
 </head>
 <!-- Tambahkan CSS Prism.js -->
@@ -583,10 +660,14 @@ pre {
         <div onclick="translatePage('en')">🅰 English</div>
         <div onclick="translatePage('id')">文 Bahasa Indonesia</div>
     </div>
-    <div class="menu" id="shareMenu">
-        <div onclick="copyLink()">🔗 Copy link</div>
-        <div onclick="shareTwitter()"> Share on Instagram</div>
-    </div>
+	
+	
+<div class="menu" id="shareMenu">
+    <div id="copyLinkBtn" onclick="copyLink()">🔗 Copy link</div>
+    <div id="shareInstagramBtn" onclick="shareInstagramDM('fardardinsyh')">📩 Share to Friend</div>
+</div>
+
+
 	
 	<div class="sidebar">
     <div class="sidebar-line"></div>
@@ -613,22 +694,23 @@ pre {
         </div>
 		
 		<div class="toc-container">
-        <div>
-            <span class="toc-title">Table of Contents</span>
-            <button class="toc-toggle" onclick="toggleTOC()">☰</button>
-        </div>
-        <div class="toc-list" id="tocList">
-            <p style="color: #f4b400; font-weight: bold;">Susunan Materi Project Skripsi 2023</p>
-            <ol>
-                 <li><a href="#pendahuluan">Pendahuluan</a></li>
-        <li><a href="#komponen">Komponen yang digunakan</a></li>
-        <li><a href="#skema-sistem">Skema Sistem</a></li>
-        <li><a href="#program-arduino">Program Arduino</a></li>
-        <li><a href="#pengujian">Pengujian</a></li>
-        <li><a href="#kesimpulan">Kesimpulan</a></li>
-            </ol>
-        </div>
-		 </div>
+    <div>
+        <span class="toc-title">Table of Contents</span>
+        <button class="toc-toggle">☰</button>
+    </div>
+    <div class="toc-menu" style="display: none;">
+        <p style="color: #f4b400; font-weight: bold;">Susunan Materi Project Skripsi 2023</p>
+        <ol>
+            <li><a href="#pendahuluan">Pendahuluan</a></li>
+            <li><a href="#komponen">Komponen yang digunakan</a></li>
+            <li><a href="#skema-sistem">Skema Sistem</a></li>
+            <li><a href="#program-arduino">Program Arduino</a></li>
+            <li><a href="#pengujian">Pengujian</a></li>
+            <li><a href="#kesimpulan">Kesimpulan</a></li>
+        </ol>
+    </div>
+</div>
+
 		
 		        <p class="description">
             Sebelum memasuki materi yang saya sampaikan, mari kita baca doa terlebih dahulu, Aamiin, Terima Kasih, Selamat Belajar, Membaca, dan Mencoba.
@@ -1094,7 +1176,7 @@ else {
 	
             <div class="top-bar">
             <a href="#">Perbaiki halaman ini di GitHub</a>
-            <span>Last updated: 21/03/2025, 03:00 PM</span>
+            <span>Last updated: 24/03/2025, 03:00 PM</span>
         </div>
 
         <div class="post-navigation">
@@ -1109,6 +1191,18 @@ else {
         </div>
     </div>
 	
+	
+	<!-- Signature with Dynamic Line -->
+<div class="signature-container">
+    <div class="signature-name">Farid Ardiansyah</div>
+    <div class="signature-wrapper">
+        <div class="signature-line"></div>
+    </div>
+    <div class="signature-year">2025</div>
+</div>
+
+
+
      <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
         import { getFirestore, collection, addDoc, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-firestore.js";
@@ -1219,15 +1313,28 @@ else {
             });
         }
 
-        function copyLink() {
-            navigator.clipboard.writeText(window.location.href);
+document.addEventListener("DOMContentLoaded", function () {
+    function copyLink() {
+        navigator.clipboard.writeText(window.location.href).then(() => {
             alert("Link copied!");
-        }
+        }).catch(err => {
+            console.error("Error copying link: ", err);
+        });
+    }
 
-        function shareTwitter() {
-            const url = encodeURIComponent(window.location.href);
-            window.open(`https://twitter.com/intent/tweet?url=${url}`, "_blank");
+    function shareInstagramDM(username) {
+        if (!username) {
+            alert("Masukkan username yang benar!");
+            return;
         }
+        window.open(`https://www.instagram.com/direct/t/${username}/`, "_blank");
+    }
+
+    // Agar bisa dipanggil dari HTML
+    window.copyLink = copyLink;
+    window.shareInstagramDM = shareInstagramDM;
+});
+
 
         function translatePage(lang) {
     const translations = {
@@ -1276,15 +1383,9 @@ else {
     document.getElementById("full-code").textContent = translations[lang]["full-code"];
 }
 
- function toggleTOC() {
-            var tocList = document.getElementById("tocList");
-            if (tocList.style.display === "none" || tocList.style.display === "") {
-                tocList.style.display = "block";
-            } else {
-                tocList.style.display = "none";
-            }
-        }
-		
+
+	
+	
 			  const searchData = [
         "Komponen yang digunakan",
         "Skema Sistem",
@@ -1395,7 +1496,38 @@ else {
     });
 });
 
+document.addEventListener("scroll", function () {
+    const signatureLine = document.querySelector(".signature-line");
+    const scrollPosition = window.scrollY || window.pageYOffset;
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
 
+    if (maxScroll > 0) {
+        let lineWidth = (scrollPosition / maxScroll) * 100; // Lebar garis sesuai scroll
+        signatureLine.style.width = `${lineWidth}%`;
+    } else {
+        signatureLine.style.width = "100%"; // Jika tidak bisa scroll, langsung full width
+    }
+});
+
+
+ document.addEventListener("DOMContentLoaded", function() {
+        // Pastikan tombol ditemukan
+        var button = document.querySelector('.toc-toggle');
+        var tocMenu = document.querySelector('.toc-menu');
+
+        if (button && tocMenu) {
+            button.addEventListener('click', function() {
+                // Tampilkan/sembunyikan menu
+                if (tocMenu.style.display === "none" || tocMenu.style.display === "") {
+                    tocMenu.style.display = "block";
+                } else {
+                    tocMenu.style.display = "none";
+                }
+            });
+        } else {
+            console.error("Elemen .toc-toggle atau .toc-menu tidak ditemukan!");
+        }
+    });
     </script>
 </body>
 <!-- Tambahkan Prism.js -->
