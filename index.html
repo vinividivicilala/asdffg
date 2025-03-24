@@ -241,29 +241,29 @@
         }
 		
 		.post-navigation {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid #ddd;
-        }
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+}
 
-        .nav-link {
-            display: flex;
-            flex-direction: column;
-            padding: 10px 20px;
-            border-radius: 10px;
-            text-decoration: none;
-            font-size: 14px;
-            color: black;
-            background: #f8f8f8;
-            text-align: center;
-        }
+.nav-link {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 14px;
+    color: black;
+    background: #f8f8f8;
+    text-align: center;
+}
 
-        .nav-link span {
-            font-size: 12px;
-            color: #777;
-        }
+.nav-link span {
+    font-size: 12px;
+    color: #777;
+}
 		.note-box {
             display: flex;
             align-items: flex-start;
@@ -528,23 +528,46 @@ pre {
         gap: 8px; /* Jarak antara link dan pemisah */
     }
 
-    .styled-link {
-        color: #ff5722; /* Warna oranye */
-        text-decoration: none;
-        font-weight: bold;
-        border-bottom: 2px solid #ff5722; /* Underline */
-        transition: opacity 0.3s ease;
-		 font-size: 25px;
-    }
+ .link-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 
-    .styled-link:hover {
-        opacity: 0.7;
-    }
+.styled-link {
+    color: white; /* Warna oranye */
+    text-decoration: none;
+    font-weight: bold;
+    border-bottom: 2px solid green; /* Underline */
+    font-size: 29px;
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Jarak antara teks dan panah */
+    transition: opacity 0.3s ease, transform 0.2s ease;
+}
 
-    .separator {
-        color: #777;
-        font-weight: bold;
-    }
+.styled-link:hover {
+    opacity: 0.7;
+    transform: translateX(5px); /* Gerakkan ke kanan saat hover */
+}
+
+.separator {
+    color: #777;
+    font-weight: bold;
+}
+
+.arrow-icon {
+    width: 29px;
+    height: 29px;
+    stroke: green; /* Warna panah sama dengan teks */
+    transition: transform 0.2s ease;
+}
+
+.styled-link:hover .arrow-icon {
+    transform: translate(3px, -3px); /* Efek geser panah saat hover */
+}
+
+
 	
 	  .button, .back-btn {
             border: 2px solid white;
@@ -630,6 +653,8 @@ pre {
     top: 50%;
     transform: translateY(-50%);
     transition: width 0.3s ease-out; 
+    pointer-events: none;
+	z-index: 1;
 }
 
 
@@ -728,12 +753,25 @@ pre {
         <button id="backBtn" class="back-btn">Back</button>
     </div>
 		
-		<!-- Link dengan garis pemisah -->
+	<!-- Link dengan Panah SVG -->
 <div class="link-container">
-    <a href="https://library.gunadarma.ac.id/repository/prototipe-sistem-alarm-pendeteksi-asap-dan-kebakaran-dini-menggunakan-kipas-dan-pompa-air-berbasis-arduino-uno-skripsi" class="styled-link">Library Skripsi<a>
+    <a href="https://library.gunadarma.ac.id/repository/prototipe-sistem-alarm-pendeteksi-asap-dan-kebakaran-dini-menggunakan-kipas-dan-pompa-air-berbasis-arduino-uno-skripsi" class="styled-link">
+        Library Skripsi 
+        <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="5 5, 19 5, 19 19"></polyline>
+            <line x1="19" y1="5" x2="5" y2="19"></line>
+        </svg>
+    </a>
     <span class="separator">|</span>
-    <a href="#" class="styled-link">Coming Soon<a>
+    <a href="#" class="styled-link">
+        Coming Soon
+        <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="5 5, 19 5, 19 19"></polyline>
+            <line x1="19" y1="5" x2="5" y2="19"></line>
+        </svg>
+    </a>
 </div>
+
 
 		
         <div class="description">
@@ -1180,18 +1218,18 @@ else {
         </div>
 
         <div class="post-navigation">
-            <a href="https://portfolio-faridardiansyah.netlify.app/" class="nav-link">
-                <span>Previous page</span>
-                Home
-            </a>
-            <a href="next-page.html" class="nav-link">
-                <span>Next page</span>
-                Coming Soon.
-            </a>
-        </div>
-    </div>
+    <a href="https://portfolio-faridardiansyah.netlify.app/" class="nav-link">
+        <span>Previous page</span>
+        Home
+    </a>
+    <a href="next-page.html" class="nav-link">
+        <span>Next page</span>
+        Coming Soon.
+    </a>
+</div>
 	
 	
+
 
      <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
